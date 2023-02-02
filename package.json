@@ -1,0 +1,29 @@
+{
+    "name": "NetMeeting",
+    "version": "0.1.0",
+    "author": "super8_dragon <super8_dragon@163.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://prospdragon@bitbucket.org/prospdragon/netmeeting.git"
+    },
+    "dependencies": {
+        "express": "~4.13.3",
+        "ejs": "latest",
+        "mongoose": "~4.1.7",
+        "passport": "~0.3.0",
+        "passport-local": "~1.0.0",
+        "connect-flash": "latest",
+        "bcrypt-nodejs" : "latest",
+        "morgan": "~1.6.1",
+        "body-parser": "~1.14.0",
+        "cookie-parser": "~1.4.0",
+        "express-session": "~1.11.3",
+        "easyrtc": "~1.0.14",
+        "socket.io": "~1.3.6",
+        "async": "~1.4.2",
+        "moment": "latest",
+        "share": "~0.6.3",
+        "request": "~2.51.0"
+    },
+    "license"   : "MIT"
+}

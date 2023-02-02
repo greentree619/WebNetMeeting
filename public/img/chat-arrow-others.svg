@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="6px" height="8px" viewBox="0 0 6 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="chat-arrow-others" sketch:type="MSLayerGroup" transform="translate(-184.000000, -11.000000)">
+            <g id="Page-1-Copy-Copy-Copy-Copy-Copy-Copy-Copy" sketch:type="MSShapeGroup">
+                <g id="chat-open">
+                    <g id="chat-window">
+                        <g id="inside">
+                            <g id="Rectangle-53" transform="translate(94.500000, 24.500000) scale(-1, 1) translate(-94.500000, -24.500000) ">
+                                <g id="Group">
+                                    <g id="path-1-link" stroke="#E0E0E0" fill="#F5F5F5">
+                                        <path d="M4.13297793,18.7690169 L4.13297793,47.0031484 C4.13297793,48.1076847 5.02730293,49 6.13050872,49 L187.002469,49 C188.113698,49 189,48.1059791 189,47.0031484 L189,1.9968516 C189,0.892315254 188.105675,0 187.002469,0 L6.13050872,0 C5.01927984,0 4.13297793,0.894020915 4.13297793,1.9968516 L4.13297793,11.2991286 L0.398033792,15.0340728 L4.13297793,18.7690169 L4.13297793,18.7690169 Z" id="path-1"></path>
+                                    </g>
+                                    <g id="path-1-link">
+                                        <path d="M4.13297793,47.0031484 C4.13297793,48.1076847 5.02730293,49 6.13050872,49 L187.002469,49 C188.113698,49 189,48.1059791 189,47.0031484 L189,1.9968516 C189,0.892315254 188.105675,0 187.002469,0 L6.13050872,0 C5.01927984,0 4.13297793,0.894020915 4.13297793,1.9968516 L4.13297793,11.2991286 L0.398033792,15.0340728 L4.13297793,18.7690169 L4.13297793,47.0031484 Z" id="path-1"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,67 @@
+# Exclude the .htaccess file
+.htaccess
+
+# Exclude any PSD/AI source
+*.psd
+*.ai
+ 
+# Exclude the build products
+build/*
+*.[oa]
+
+# Exclude OS X folder attributes
+.DS_Store
+ 
+# Exclude Text Files
+*.txt
+
+# Except read me
+!README.txt
+
+# Exclude log files
+*.log
+
+# Exclude Fonts
+_fonts/
+
+.DS_Store
+node_modules
+npm-debug.log
+.tmp
+.sass-cache
+
+
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# WebStorm config files
+.idea
+
+# avata files
+public/avatars/*
+!no-avatar.jpg
+
+# upload files
+public/upload/*
+!.gitignore
+
+# recorded files
+recorded/*
+!.gitignore

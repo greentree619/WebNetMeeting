@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <title>NetMeeting</title>
+
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+    <link href="/vendor/kendo/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="/vendor/kendo/styles/kendo.default.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/bootstrap-clip.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+
+    <script src="/vendor/kendo/js/jquery.min.js"></script>
+    <script src="/vendor/kendo/js/kendo.all.min.js"></script>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/ui-helper.js"></script>
+</head>
+
+<body>
+
+<header id="header">
+    <div class="logo-text">
+        Net Meeting
+    </div>
+
+    <div class="menu-right">
+        <a href="/takeavatar">
+            <% if (avatar) { %>
+            <img src="/avatars/<%=avatar%>" class="top-avatar">
+            <% } else { %>
+            <img src="/img/no-avatar.jpg" class="top-avatar">
+            <% } %>
+        </a>
+        <a href="/logout" class="txt-menu">Log Out</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="button-right-panel">
+        <button type="button" id="create-meeting" class="k-primary">Create Meeting</button>
+    </div>
+
+    <div id="rooms-list"></div>
+
+</div>
+
+<div id="create-window" class="pop-window hidden">
+    <form action="/#" method="post" id="frm-create">
+        <ul class="fieldlist">
+            <li>
+                <label for="meetingname">Meeting Name</label>
+                <input type="text" id="meetingname" name="meetingname" class="k-textbox" required />
+            </li>
+            <li>
+                <button type="submit" class="k-button k-primary">Create</button>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<script>
+    var rooms_grid = null;
+
+    function griding_rooms() {
+
+        ajax.post({
+            url: '/roomlist',
+            success: function(response) {
+                var dataSource = new kendo.data.DataSource({
+                    data: response,
+                    pageSize: 8,
+                    schema: {
+                        model: { id: "roomid" }
+                    }
+                });
+
+                dataSource.fetch(function() {
+                    $("#rooms-list").kendoGrid({
+                        dataSource: dataSource,
+                        height: 590,
+                        groupable: true,
+                        sortable: true,
+                        pageable: {
+                            pageSize: true,
+                            buttonCount: 5
+                        },
+                        columns: [{
+                            template: "<div class='customer-photo'" +
+                            "style='background-image: url(/avatars/#:data.avatar#);'></div>" +
+                            "<div class='customer-name'>#: creator #</div>",
+                            field: "creator",
+                            title: "Creator",
+                            width: '28%'
+                        }, {
+                            template: "<a href='/meeting/#:sessid#' class='a-common'>" +
+                            "#:data.name#</a>",
+                            field: "name",
+                            title: "Meeting Name",
+                            width: '30%'
+                        }, {
+                            field: "roomcode",
+                            title: "Meeting ID",
+                            width: '20%'
+                        }, {
+                            field: "create_date",
+                            title: "Create Date"
+                        }]
+                    });
+
+                    rooms_grid = $("#rooms-list").data('kendoGrid');
+                });
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        $("#create-meeting").kendoButton({
+            icon: "plus"
+        });
+
+        griding_rooms();
+
+        var create_window = $("#create-window");
+
+        $('#create-meeting').click(function() {
+            show_panel('#create-window');
+
+            if (!create_window.data("kendoWindow")) {
+                create_window.kendoWindow({
+                    width: "600px",
+                    title: "Create Meeting",
+                    modal: true,
+                    actions: [
+                        "Close"
+                    ]
+                }).data("kendoWindow").center().open();
+            } else {
+                create_window.data("kendoWindow").center().open();
+            }
+        });
+
+        $('#frm-create').submit(function(e) {
+            e.preventDefault();
+
+            ajax.post({
+                url: '/createroom',
+                data: {meetingname: $('#meetingname').val()},
+                success: function(res) {
+                    if (res.res == 'ok') {
+                        create_window.data("kendoWindow").close();
+
+                        griding_rooms();
+                    } else {
+                        alert("This room name already exist.");
+                    }
+                }
+            });
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

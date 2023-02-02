@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	<title>NetMeeting</title>
+
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+    <link href="/vendor/kendo/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="/vendor/kendo/styles/kendo.default.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/bootstrap-clip.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+
+    <script src="/vendor/kendo/js/jquery.min.js"></script>
+    <script src="/vendor/kendo/js/kendo.all.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1>Signup</h1>
+
+        <!-- show any messages that come back with authentication -->
+        <% if (message.length > 0) { %>
+        <div class="k-block k-shadow k-error-colored alert-error"><span class="k-icon k-i-note"></span> <%= message %></div>
+        <% } %>
+
+        <div class="auth-form k-header">
+            <!-- LOGIN FORM -->
+            <form action="/signup" method="post">
+
+                <ul class="fieldlist">
+                    <li>
+                        <label for="username">User name</label>
+                        <input type="text" id="username" name="username" class="k-textbox" required />
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="k-textbox" required />
+                    </li>
+                    <li>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="k-textbox" required />
+                    </li>
+                    <li>
+                        <button type="submit" class="k-button k-primary">Signup</button>
+                    </li>
+                </ul>
+
+            </form>
+
+            <p>
+                <br><hr>
+            Already have an account? <a href="/" class="a-common">Login</a>
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

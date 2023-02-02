@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <title><%=roomname%> - NetMeeting</title>
+
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+    <!-- styles for KendoUI -->
+    <link href="/vendor/kendo/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="/vendor/kendo/styles/kendo.default.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/bootstrap-clip.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+
+    <!-- whiteboard toolbar -->
+    <link href="/css/wb-toolbar.css" rel="stylesheet">
+
+    <!-- KendoUI Script -->
+    <script src="/vendor/kendo/js/jquery.min.js"></script>
+    <script src="/vendor/kendo/js/kendo.all.min.js"></script>
+
+    <!-- Custom Script -->
+    <script src="/js/ui-helper.js"></script>
+    <script src="/js/meeting-ui.js"></script>
+
+    <!-- vChat Script -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/easyrtc/easyrtc.js"></script>
+    <script src="/js/chat.js"></script>
+
+    <!-- Record Script -->
+    <script src="/js/RecordRTC.js"></script>
+    <script src="/js/record-action.js"></script>
+
+    <!-- whiteboard share javascript -->
+    <script src="/vendor/paperjs/paper-full.min.js"></script>
+    <script src="/vendor/sharejs/bcsocket.js"></script>
+    <script src="/vendor/sharejs/share.js"></script>
+    <script src="/vendor/sharejs/json.js"></script>
+    <script src="/js/require.js" data-main="/js/owner_wb.js"></script>
+
+    <script>
+        // user information
+        var myinfor = {
+            my_name: "<%=username%>",
+            room: "<%=sessid%>",
+            avatar: "no-avatar.jpg",
+            enable_audio: true,
+            enable_camera: true
+        };
+        <% if (avatar) { %>
+        myinfor.avatar = "<%=avatar%>";
+        <% } %>
+
+        var participants = {};
+    </script>
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="vertical" class="clear">
+
+    <div id="top-pane">
+        <div id="horizontal" class="full-with-height">
+            <div id="tabstrip">
+
+                <ul>
+                    <li class="k-state-active">
+                        Videos
+                    </li>
+                    <li>
+                        Text Chat
+                    </li>
+                    <li>
+                        Functions
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="my-video-pane">
+                        <div class="pane-content owner-pane">
+                            <h4>My Video</h4>
+                            <div class="owner-container">
+                                <video id="vd-mine" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-my-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="other-video-pane">
+                        <div class="pane-content others-pane">
+                            <h4>Other Videos</h4>
+                            <div class="other-video-container">
+                                <video id="user1" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                            <div class="other-video-container">
+                                <video id="user2" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                            <div class="other-video-container">
+                                <video id="user3" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                            <div class="other-video-container">
+                                <video id="user4" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                            <div class="other-video-container">
+                                <video id="user5" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                            <div class="other-video-container">
+                                <video id="user6" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                            <div class="other-video-container">
+                                <video id="user7" poster="/img/transparent.png" autoplay></video>
+                                <div class="mute-other-icon hidden"></div>
+                                <div class="video-avatar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    <div class="chat-view-container"></div>
+
+                    <div class="chat-control-container">
+                        <form id="frm-chat" action="#chat">
+                            <input type="text" id="chat-text" name="chat-text" class="k-textbox chat-text" placeholder="Send a message...">
+                            <button type="submit" class="k-button k-primary">Send</button>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="tab-content">
+                    <div class="logo-text">
+                        <a href="/rooms">Net Meeting</a>
+                    </div>
+
+                    <div class="menu-right">
+                        <% if (username != 'guest') { %>
+                        <a href="/takeavatar">
+                        <% } %>
+                            <% if (avatar) { %>
+                            <img src="/avatars/<%=avatar%>" class="top-avatar">
+                            <% } else { %>
+                            <img src="/img/no-avatar.jpg" class="top-avatar">
+                            <% } %>
+                        <% if (username != 'guest') { %>
+                        </a>
+                        <% } %>
+                        <a href="/logout" class="txt-menu">Log Out</a>
+                    </div>
+
+                    <div class="top-control-pane">
+                        <button type="button" id="audio-switch" >Mute</button>
+                        <button type="button" id="camera-switch">Disable</button>
+                    </div>
+
+                    <div class="top-control-pane record-control-pane">
+                        <button id="start-recording" class="k-primary">Start Recording</button>
+                        <button id="stop-recording">Stop Recording</button>
+                    </div>
+
+                    <div class="top-control-pane share-code-pane">
+                        <label>
+                            Share meeting ID to others :
+                            <input type="text" id="meetingid" class="k-input" value="<%=roomcode%>" readonly>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="whiteboard-pane">
+                <div class="pane-content">
+
+                    <div id="canvas-container">
+                        <canvas id="canvas-back" data-paper-scope="0" class="back-board" width="2000" height="1500"></canvas>
+                        <canvas id="canvas-main" data-paper-scope="1" class="main-board" width="2000" height="1500"></canvas>
+                    </div>
+
+                    <div id="canvas-toolbar-owner" class="canvas-toolbar"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<input type="file" id="inp-image" accept="image/*" class="hidden">
+<canvas id="canv-buf" width="640" height="480" class="hidden"></canvas>
+<input type="color" id="color-picker" tabindex=-1 class="out-hidden">
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <title>NetMeeting</title>
+
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+    <link href="/vendor/kendo/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="/vendor/kendo/styles/kendo.default.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/bootstrap-clip.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+
+    <script src="/vendor/kendo/js/jquery.min.js"></script>
+    <script src="/vendor/kendo/js/kendo.all.min.js"></script>
+    <script src="/js/ui-helper.js"></script>
+</head>
+
+<body>
+
+<header id="header">
+    <div class="logo-text">
+        Net Meeting
+    </div>
+
+    <div class="menu-right">
+        <a href="/logout" class="txt-menu">Log Out</a>
+        <a href="/rooms" class="txt-menu">Back</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="avatar-panel">
+        <% if (avatar) { %>
+        <img id="avatar" src="/avatars/<%=avatar%>">
+        <% } else { %>
+        <img id="avatar" src="/img/no-avatar.jpg">
+        <% } %>
+    </div>
+
+    <div class="btn-panel">
+        <button id="upload-photo" class="k-button k-primary">Upload photo</button>
+        <button id="open-camera" class="k-button k-primary">Open camera</button>
+    </div>
+
+    <div id="loading-panel" class="col-sm-6 col-sm-offset-3">
+        <div id="progressBar" class="hidden"></div>
+    </div>
+
+    <div id="camera-panel" class="hidden">
+        <div class="avatar-panel">
+            <video id="photo" autoplay></video>
+            <canvas id="canv" width="400" height="300" class="hidden"></canvas>
+            <img id="img-photo" width="400" height="300" class="hidden" />
+        </div>
+
+        <div class="btn-panel">
+            <button id="take-photo" class="k-button k-primary">Take photo</button>
+        </div>
+    </div>
+
+    <input type="file" id="inp-file" accept="image/*" class="hidden">
+</div>
+
+<script src="/js/takeavatar.js"></script>
+
+</body>
+</html>
