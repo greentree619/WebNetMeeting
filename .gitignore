@@ -65,3 +65,4 @@ public/upload/*
 # recorded files
 recorded/*
 !.gitignore
+node_modules
