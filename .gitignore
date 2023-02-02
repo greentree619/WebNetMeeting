@@ -66,3 +66,4 @@ public/upload/*
 recorded/*
 !.gitignore
 node_modules
+\!node_modules\!easyrtc\!api\!easyrtc.!js
