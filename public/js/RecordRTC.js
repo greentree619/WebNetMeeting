@@ -298,6 +298,16 @@ RecordRTC.writeToDisk = function(options) {
     }
 };
 
+function setSrcObject(stream, element) {
+    if ('srcObject' in element) {
+        element.srcObject = stream;
+    } else if ('mozSrcObject' in element) {
+        element.mozSrcObject = stream;
+    } else {
+        element.srcObject = stream;
+    }
+}
+
 // _____________
 // MRecordRTC.js
 
@@ -949,8 +959,8 @@ function WhammyRecorder(mediaStream) {
         if (this.video && this.video instanceof HTMLVideoElement) {
             video = this.video.cloneNode();
         } else {
-            video = document.createElement('video');
-            video.src = URL.createObjectURL(mediaStream);
+            video = document.createElement('video');            
+			setSrcObject(mediaStream, video);//video.src = URL.createObjectURL(mediaStream);
 
             video.width = this.video.width;
             video.height = this.video.height;
@@ -1138,7 +1148,7 @@ var Whammy = (function() {
                 }].concat(clusterFrames.map(function(webp) {
                     var block = makeSimpleBlock({
                         discardable: 0,
-                        frame: webp.data.slice(4),
+                        frame: webp.data.slice(webp.data.indexOf('\x9d\x01\x2a') - 3),
                         invisible: 0,
                         keyframe: 1,
                         lacing: 0,

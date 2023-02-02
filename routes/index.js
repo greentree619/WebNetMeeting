@@ -144,7 +144,7 @@ function upload(postData) {
         // writing video file to disk
         _upload(files.video);
 
-        merge(files);
+        //Omitted merge(files);
     }
 }
 

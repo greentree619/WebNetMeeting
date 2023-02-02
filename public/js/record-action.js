@@ -7,21 +7,32 @@ var recFileName;
 var startedRecord = false;
 
 $(function() {
+    var startRecordingCallback = function(){
+        startRecording();
+
+        btnStartRecording.enable(false);
+        btnStopRecording.enable(true);
+    };
+
+    var stopRecordingCallback = function(){
+        stopRecording();
+
+        btnStartRecording.enable(true);
+        btnStopRecording.enable(false);
+    };
+    easyrtc.callbackStartRecord = startRecordingCallback;
+    easyrtc.callbackStopRecord = stopRecordingCallback;
+
     var btnStartRecording = $('#start-recording').kendoButton({
         click: function(e) {
-            startRecording();
-
-            btnStartRecording.enable(false);
-            btnStopRecording.enable(true);
+			easyrtc.startRecord(startRecordingCallback);
+            
         }
     }).data("kendoButton");
 
     var btnStopRecording = $('#stop-recording').kendoButton({
         click: function(e) {
-            stopRecording();
-
-            btnStartRecording.enable(true);
-            btnStopRecording.enable(false);
+			easyrtc.stopRecord(stopRecordingCallback);            
         }
     }).data("kendoButton");
 });
@@ -128,7 +139,15 @@ function xhr(url, data, callback) {
             callback(request.responseText);
         }
     };
-    request.upload.onprogress = function(event) {
+    request.upload.onprogress = function(e) {
+        if (e.loaded <= e.total) {
+            var percent = Math.round(e.loaded / e.total * 100);
+            $('#progress-bar-file1').width(percent + '%');
+        } 
+
+        if(e.loaded == e.total){
+            $('#progress-bar-file1').width(100 + '%');
+        }
     };
     request.upload.onload = function() {
     };
