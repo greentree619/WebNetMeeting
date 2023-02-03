@@ -1,4 +1,3 @@
-
 var isRecordOnlyAudio = !!navigator.mozGetUserMedia;
 var localStream = null;
 var audioRecorder;
@@ -110,25 +109,61 @@ function postFiles(audio, video) {
     var files = { };
 
     // recorded audio blob
-    files.audio = {
-        name: recFileName + '.' + audio.blob.type.split('/')[1],
-        type: audio.blob.type,
-        contents: audio.dataURL
-    };
+    //{{Omitted
+    // files.audio = {
+    //     name: recFileName + '.' + audio.blob.type.split('/')[1],
+    //     type: audio.blob.type,
+    //     contents: audio.dataURL
+    // };
 
-    if(video) {
-        files.video = {
-            name: recFileName + '.' + video.blob.type.split('/')[1],
-            type: video.blob.type,
-            contents: video.dataURL
-        };
-    }
+    // if(video) {
+    //     files.video = {
+    //         name: recFileName + '.' + video.blob.type.split('/')[1],
+    //         type: video.blob.type,
+    //         contents: video.dataURL
+    //     };
+    // }
+    //}}Omitted
+    var audioFile = new File([audio.blob], recFileName + '.' + audio.blob.type.split('/')[1]);
+    var videoFile = new File([video.blob], recFileName + '.' + video.blob.type.split('/')[1]);
 
     files.uploadOnlyAudio = !video;
 
-    xhr('/upload-recorded', JSON.stringify(files), function(_fileName) {
-    	console.log(_fileName);
-    });
+    uploadToS3( 'https://epc1mr6fd6.execute-api.us-east-2.amazonaws.com/prod/', audioFile, '123456789', 'progress-bar-audio');
+    uploadToS3( 'https://epc1mr6fd6.execute-api.us-east-2.amazonaws.com/prod/', videoFile, '123456789', 'progress-bar-video');
+
+    //{{Omitted
+    // xhr('/upload-recorded', JSON.stringify(files), function(_fileName) {
+    // 	console.log(_fileName);
+    // });
+    //}}
+}
+
+function uploadToS3( baseUrl, file, meetingId, progressBar ) {
+    const uploaderOptions = {
+        file: file,
+        baseURL: baseUrl,
+        meetingId: meetingId
+    }
+
+    let percentage = undefined
+    const uploader = new Uploader(uploaderOptions)
+    const tBegin = performance.now()
+    uploader.onProgress(({ percentage: newPercentage }) => {
+            // to avoid the same percentage to be logged twice
+            if (percentage === 100) {
+                $(`#${progressBar}`).width(100 + '%');
+            }
+            if (newPercentage !== percentage) {
+                percentage = newPercentage
+                $(`#${progressBar}`).width(percentage + '%');
+            }
+        })
+        .onError((error) => {
+            console.error(error)
+        })
+
+    uploader.start()
 }
 
 // XHR2/FormData
@@ -142,11 +177,11 @@ function xhr(url, data, callback) {
     request.upload.onprogress = function(e) {
         if (e.loaded <= e.total) {
             var percent = Math.round(e.loaded / e.total * 100);
-            $('#progress-bar-file1').width(percent + '%');
+            $('#progress-bar-audio').width(percent + '%');
         } 
 
         if(e.loaded == e.total){
-            $('#progress-bar-file1').width(100 + '%');
+            $('#progress-bar-audio').width(100 + '%');
         }
     };
     request.upload.onload = function() {

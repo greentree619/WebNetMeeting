@@ -45,7 +45,7 @@ function connect() {
         easyrtc.showError("LOST-CONNECTION", "Lost connection to signaling server");
     });
     easyrtc.setOnCall( function(easyrtcid, slot) {
-        console.log('setOnCall');
+        console.log('setOnCall', easyrtcid);
         var boxid = getIdOfBox(slot+1);
         $('#' + boxid).css('display', 'block');
         $('#' + boxid).attr('data-eid', easyrtcid);
